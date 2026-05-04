@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MotoShop — Toko Motor Online</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --card: #1a1a1a;
+    --border: #2a2a2a;
+    --accent: #e8c840;
+    --accent2: #ff5733;
+    --text: #f0f0f0;
+    --muted: #888;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--accent);
+  }
+  .logo span { color: var(--text); }
+  .header-tag {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1200 50%, #0a0a0a 100%);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(232,200,64,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 96px);
+    letter-spacing: 6px;
+    line-height: 1;
+    color: var(--text);
+    position: relative;
+  }
+  .hero h1 .highlight { color: var(--accent); }
+  .hero p {
+    margin-top: 14px;
+    font-size: 15px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* ─── SECTION TITLE ─── */
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    letter-spacing: 4px;
+    color: var(--text);
+    padding: 40px 40px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── PRODUK GRID ─── */
+  .produk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    padding: 24px 40px 40px;
+  }
+
+  .motor-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    cursor: default;
+  }
+  .motor-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 32px rgba(232,200,64,0.12);
+  }
+
+  .card-img-wrap {
+    position: relative;
+    height: 180px;
+    background: #111;
+    overflow: hidden;
+  }
+  .card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+  .motor-card:hover .card-img-wrap img {
+    transform: scale(1.05);
+  }
+  .card-brand {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--accent);
+    color: #000;
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+
+  .card-body {
+    padding: 16px 18px 18px;
+  }
+  .card-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .card-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .card-price {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .qty-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .qty-wrap label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .qty-input {
+    flex: 1;
+    background: #0f0f0f;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    min-width: 0;
+  }
+  .qty-input:focus { border-color: var(--accent); }
+
+  /* ─── KASIR PANEL ─── */
+  .kasir {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 40px;
+    margin-top: 0;
+  }
+  .kasir-inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .kasir-title {
+    font-family: var(--font-display);
+    font-size: 30px;
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+    color: var(--accent);
+  }
+
+  .total-display {
+    background: #0f0f0f;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .total-label { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
+  .total-value { font-family: var(--font-display); font-size: 32px; letter-spacing: 2px; color: var(--accent); }
+
+  .bayar-row {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+    margin-bottom: 16px;
+  }
+  .bayar-input {
+    flex: 1;
+    background: #0f0f0f;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+    min-width: 0;
+  }
+  .bayar-input:focus { border-color: var(--accent); }
+  .bayar-input::placeholder { color: var(--muted); }
+
+  .btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-primary:hover { background: #f0d050; transform: scale(1.02); }
+  .btn-danger { background: transparent; border: 1px solid #444; color: var(--muted); }
+  .btn-danger:hover { border-color: var(--accent2); color: var(--accent2); }
+  .btn-ghost { background: transparent; border: 1px solid #333; color: var(--text); }
+  .btn-ghost:hover { background: #222; }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .kembalian-box {
+    background: rgba(232,200,64,0.07);
+    border: 1px solid rgba(232,200,64,0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: none;
+  }
+  .kembalian-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .kembalian-row:last-child { margin-bottom: 0; }
+  .kembalian-row span:first-child { color: var(--muted); }
+  .kembalian-row span:last-child { font-weight: 600; color: var(--text); }
+  .kembalian-row.highlight span:last-child { color: var(--accent); font-size: 18px; font-family: var(--font-display); letter-spacing: 1px; }
+
+  .alert-box {
+    background: rgba(255,87,51,0.12);
+    border: 1px solid rgba(255,87,51,0.4);
+    color: #ff8a72;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: none;
+  }
+
+  /* ─── STRUK ─── */
+  .struk {
+    background: #fff;
+    color: #111;
+    border-radius: 12px;
+    padding: 28px;
+    max-width: 360px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    display: none;
+  }
+  .struk h3 { font-family: var(--font-display); font-size: 22px; letter-spacing: 3px; text-align: center; margin-bottom: 4px; color: #000; }
+  .struk .struk-sub { text-align: center; color: #666; font-size: 11px; margin-bottom: 12px; }
+  .struk hr { border: none; border-top: 1px dashed #999; margin: 10px 0; }
+  .struk-item { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .struk-item span:first-child { color: #333; flex: 1; }
+  .struk-item span:last-child { font-weight: bold; color: #000; white-space: nowrap; padding-left: 10px; }
+  .struk-total { display: flex; justify-content: space-between; font-weight: bold; font-size: 15px; margin-top: 4px; }
+  .struk-footer { text-align: center; color: #666; font-size: 11px; margin-top: 10px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #444;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 0 20px; }
+    .hero { padding: 40px 20px 30px; }
+    .section-title { padding: 30px 20px 0; font-size: 28px; }
+    .produk-grid { padding: 16px 20px 30px; gap: 16px; }
+    .kasir { padding: 30px 20px; }
+  }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .motor-card { animation: fadeIn 0.4s ease both; }
+  .motor-card:nth-child(1) { animation-delay: 0.05s; }
+  .motor-card:nth-child(2) { animation-delay: 0.1s; }
+  .motor-card:nth-child(3) { animation-delay: 0.15s; }
+  .motor-card:nth-child(4) { animation-delay: 0.2s; }
+  .motor-card:nth-child(5) { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">MOTO<span>SHOP</span></div>
+  <div class="header-tag">Toko Motor Online — Indonesia</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>PILIH<br><span class="highlight">MOTOR</span><br>TERBAIK</h1>
+  <p>5 Merek Unggulan · Harga Transparan · Proses Cepat</p>
+</div>
+
+<!-- PRODUK -->
+<div class="section-title">PILIHAN MOTOR</div>
+
+<div class="produk-grid">
+
+  <!-- Honda Beat -->
+  <div class="motor-card">
+    <div class="card-img-wrap">
+      <span class="card-brand">HONDA</span>
+      <img src="1.jpeg"
+           alt="Honda Beat"
+           onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Honda_beat_2013.jpg/640px-Honda_beat_2013.jpg'">
+    </div>
+    <div class="card-body">
+      <div class="card-name">Honda Beat</div>
+      <div class="card-desc">Matic praktis, irit bahan bakar, cocok untuk harian. Mesin 110cc eSP.</div>
+      <div class="card-price">Rp 18.000.000</div>
+      <div class="qty-wrap">
+        <label>Qty</label>
+        <input class="qty-input" type="number" id="beat" placeholder="0" min="0" oninput="hitungTotal()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Yamaha NMAX -->
+  <div class="motor-card">
+    <div class="card-img-wrap">
+      <span class="card-brand">YAMAHA</span>
+      <img src="2.jpeg"
+           alt="Yamaha NMAX"
+           onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Yamaha_NMAX_2020.jpg/640px-Yamaha_NMAX_2020.jpg'">
+    </div>
+    <div class="card-body">
+      <div class="card-name">Yamaha NMAX</div>
+      <div class="card-desc">Skuter premium bertenaga 155cc, suspensi sporty, cocok touring kota.</div>
+      <div class="card-price">Rp 32.000.000</div>
+      <div class="qty-wrap">
+        <label>Qty</label>
+        <input class="qty-input" type="number" id="nmax" placeholder="0" min="0" oninput="hitungTotal()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Kawasaki Ninja -->
+  <div class="motor-card">
+    <div class="card-img-wrap">
+      <span class="card-brand">KAWASAKI</span>
+      <img src="3.jpeg"
+           alt="Kawasaki Ninja"
+           onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Kawasaki_Ninja_400_%282018%29.jpg/640px-Kawasaki_Ninja_400_%282018%29.jpg'">
+    </div>
+    <div class="card-body">
+      <div class="card-name">Kawasaki Ninja</div>
+      <div class="card-desc">Motor sport bertenaga tinggi, desain agresif, performa balapan di jalan raya.</div>
+      <div class="card-price">Rp 65.000.000</div>
+      <div class="qty-wrap">
+        <label>Qty</label>
+        <input class="qty-input" type="number" id="ninja" placeholder="0" min="0" oninput="hitungTotal()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Suzuki Satria -->
+  <div class="motor-card">
+    <div class="card-img-wrap">
+      <span class="card-brand">SUZUKI</span>
+      <img src="4.jpeg"
+           alt="Suzuki Satria"
+           onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Suzuki_Satria_F150.jpg/640px-Suzuki_Satria_F150.jpg'">
+    </div>
+    <div class="card-body">
+      <div class="card-name">Suzuki Satria</div>
+      <div class="card-desc">Bebek sport lincah bermesin 150cc, akselerasi tinggi, tampilan sporty.</div>
+      <div class="card-price">Rp 28.000.000</div>
+      <div class="qty-wrap">
+        <label>Qty</label>
+        <input class="qty-input" type="number" id="satria" placeholder="0" min="0" oninput="hitungTotal()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Vespa Sprint -->
+  <div class="motor-card">
+    <div class="card-img-wrap">
+      <span class="card-brand">VESPA</span>
+      <img src="5.jpeg"
+           alt="Vespa Sprint"
+           onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Vespa_Sprint_2021.jpg/640px-Vespa_Sprint_2021.jpg'">
+    </div>
+    <div class="card-body">
+      <div class="card-name">Vespa Sprint</div>
+      <div class="card-desc">Skuter ikonik Italia, desain klasik elegan, mesin 150cc modern bertenaga.</div>
+      <div class="card-price">Rp 50.000.000</div>
+      <div class="qty-wrap">
+        <label>Qty</label>
+        <input class="qty-input" type="number" id="vespa" placeholder="0" min="0" oninput="hitungTotal()">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- KASIR -->
+<div class="kasir">
+  <div class="kasir-inner">
+    <div class="kasir-title">KASIR</div>
+
+    <div class="alert-box" id="alertBox"></div>
+
+    <div class="total-display">
+      <span class="total-label">Total Pembelian</span>
+      <span class="total-value" id="totalDisplay">Rp 0</span>
+    </div>
+
+    <div class="bayar-row">
+      <input class="bayar-input" type="number" id="bayar" placeholder="Masukkan uang bayar (Rp)" min="0">
+      <button class="btn btn-primary" onclick="prosesBayar()">BAYAR</button>
+    </div>
+
+    <div class="kembalian-box" id="kembalianBox">
+      <div class="kembalian-row">
+        <span>Uang Bayar</span>
+        <span id="bayarDisplay">Rp 0</span>
+      </div>
+      <div class="kembalian-row">
+        <span>Total Belanja</span>
+        <span id="totalKembali">Rp 0</span>
+      </div>
+      <div class="kembalian-row highlight">
+        <span>Kembalian</span>
+        <span id="kembalianDisplay">Rp 0</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="hitungTotal()">🔄 Hitung Ulang</button>
+      <button class="btn btn-ghost" onclick="cetakStruk()">🖨️ Cetak Struk</button>
+      <button class="btn btn-danger" onclick="resetData()">✕ Reset</button>
+    </div>
+
+    <div class="struk" id="struk"></div>
+  </div>
+</div>
+
+<footer>© 2025 MotoShop Indonesia — Semua harga belum termasuk pajak &amp; biaya balik nama</footer>
+
+<script>
+const produk = [
+  { id: "beat",   nama: "Honda Beat",      harga: 18000000 },
+  { id: "nmax",   nama: "Yamaha NMAX",     harga: 32000000 },
+  { id: "ninja",  nama: "Kawasaki Ninja",  harga: 65000000 },
+  { id: "satria", nama: "Suzuki Satria",   harga: 28000000 },
+  { id: "vespa",  nama: "Vespa Sprint",    harga: 50000000 }
+];
+
+let totalGlobal = 0;
+
+function rupiah(n) {
+  return "Rp " + Math.round(n).toLocaleString("id-ID");
+}
+
+function showAlert(msg) {
+  const a = document.getElementById("alertBox");
+  a.textContent = msg;
+  a.style.display = "block";
+  clearTimeout(a._t);
+  a._t = setTimeout(() => a.style.display = "none", 3500);
+}
+
+function hitungTotal() {
+  let total = 0;
+  produk.forEach(p => {
+    const v = parseInt(document.getElementById(p.id).value) || 0;
+    if (v > 0) total += v * p.harga;
+  });
+  totalGlobal = total;
+  document.getElementById("totalDisplay").textContent = rupiah(total);
+  document.getElementById("kembalianBox").style.display = "none";
+  document.getElementById("struk").style.display = "none";
+}
+
+function prosesBayar() {
+  if (totalGlobal === 0) { showAlert("⚠ Belum ada motor yang dipilih!"); return; }
+  const bayar = parseFloat(document.getElementById("bayar").value) || 0;
+  if (!bayar) { showAlert("⚠ Masukkan jumlah uang bayar!"); return; }
+  if (bayar < totalGlobal) { showAlert("⚠ Uang tidak cukup! Kurang " + rupiah(totalGlobal - bayar)); return; }
+  const kembali = bayar - totalGlobal;
+  document.getElementById("bayarDisplay").textContent = rupiah(bayar);
+  document.getElementById("totalKembali").textContent = rupiah(totalGlobal);
+  document.getElementById("kembalianDisplay").textContent = rupiah(kembali);
+  document.getElementById("kembalianBox").style.display = "block";
+}
+
+function resetData() {
+  produk.forEach(p => document.getElementById(p.id).value = "");
+  document.getElementById("bayar").value = "";
+  totalGlobal = 0;
+  document.getElementById("totalDisplay").textContent = "Rp 0";
+  document.getElementById("kembalianBox").style.display = "none";
+  document.getElementById("struk").style.display = "none";
+  document.getElementById("alertBox").style.display = "none";
+}
+
+function cetakStruk() {
+  if (totalGlobal === 0) { showAlert("⚠ Belum ada transaksi!"); return; }
+  const now = new Date();
+  const tgl = now.toLocaleDateString("id-ID", { weekday:"long", day:"2-digit", month:"long", year:"numeric" });
+  const jam = now.toLocaleTimeString("id-ID");
+
+  let items = "";
+  produk.forEach(p => {
+    const v = parseInt(document.getElementById(p.id).value) || 0;
+    if (v > 0) {
+      items += `<div class="struk-item">
+        <span>${p.nama} x${v}</span>
+        <span>${rupiah(v * p.harga)}</span>
+      </div>`;
+    }
+  });
+
+  const bayar = parseFloat(document.getElementById("bayar").value) || 0;
+  const kembali = bayar - totalGlobal;
+  const noStruk = "INV-" + Date.now().toString().slice(-8);
+
+  const div = document.getElementById("struk");
+  div.innerHTML = `
+    <h3>MOTOSHOP</h3>
+    <div class="struk-sub">Toko Motor Online Indonesia<br>${tgl} · ${jam}<br>No. ${noStruk}</div>
+    <hr>
+    ${items}
+    <hr>
+    <div class="struk-total"><span>TOTAL</span><span>${rupiah(totalGlobal)}</span></div>
+    ${bayar ? `
+    <div class="struk-item" style="margin-top:4px;"><span>Bayar</span><span>${rupiah(bayar)}</span></div>
+    <div class="struk-item"><span>Kembali</span><span>${rupiah(kembali < 0 ? 0 : kembali)}</span></div>` : ""}
+    <hr>
+    <div class="struk-footer">Terima kasih telah berbelanja!<br>Barang yang sudah dibeli tidak dapat dikembalikan.</div>`;
+  div.style.display = "block";
+  div.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+</script>
+
+</body>
+</html>
